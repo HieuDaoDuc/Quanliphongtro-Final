@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống Quản lý Phòng Trọ - Khách thuê</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="@Url.Content("~/css/khachthue.css")">
+    <script src="@Url.Content("~/js/khachthue.js")" defer></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Main App -->
+    <div id="mainApp" class="min-h-screen bg-gray-50">
+        @await Html.PartialAsync("_Header")
+
+        @await Html.PartialAsync("_Sidebar")
+
+        <!-- Main Content -->
+        @RenderBody()
+    </div>
+
+    <!-- Overlay for mobile sidebar -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden lg:hidden"></div>
+</body>
+</html>

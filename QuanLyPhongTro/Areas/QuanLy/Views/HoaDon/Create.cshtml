@@ -1,0 +1,493 @@
+﻿<!-- Modal thêm hóa đơn -->
+<div id="createBillModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-white rounded-xl max-w-5xl w-full max-h-[95vh] overflow-y-auto shadow-lg bounce-in">
+        <!-- Header -->
+        <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+            <h3 class="text-lg font-semibold text-gray-800">Thêm hóa đơn mới</h3>
+            <button onclick="closeModal('createBillModal')" class="text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Body -->
+        <form id="createBillForm" class="p-6 space-y-6">
+            <!-- Header Form -->
+            <div class="grid grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Phòng *</label>
+                    <select id="selectPhong" class="form-input w-full px-3 py-2 rounded-lg border-gray-300">
+                        <option value="">-- Chọn phòng --</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Khách thuê</label>
+                    <input id="tenKhachThue" type="text" readonly class="form-input w-full px-3 py-2 bg-gray-100 rounded-lg border-gray-300">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Kỳ hóa đơn *</label>
+                    <div class="flex gap-2">
+                        <input type="number" id="thangKyHoaDon" placeholder="Tháng" min="1" max="12" class="form-input w-1/2 px-3 py-2 rounded-lg border-gray-300">
+                        <input type="number" id="namKyHoaDon" placeholder="Năm" min="2020" class="form-input w-1/2 px-3 py-2 rounded-lg border-gray-300">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bảng chi tiết -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm border border-gray-300 rounded-lg">
+                    <thead class="bg-gray-100 text-gray-700 border-b border-gray-300">
+                        <tr>
+                            <th class="px-3 py-2 text-center border-r border-gray-300 w-12">STT</th>
+                            <th class="px-3 py-2 text-left border-r border-gray-300">Nội dung</th>
+                            <th class="px-3 py-2 text-center border-r border-gray-300 w-32">Số lượng</th>
+                            <th class="px-3 py-2 text-right border-r border-gray-300 w-28">Đơn giá</th>
+                            <th class="px-3 py-2 text-right w-32">Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-300">
+
+                        <!-- Tiền phòng -->
+                        <tr>
+                            <td class="text-center py-2 border-r border-gray-300">1</td>
+                            <td class="font-medium border-r border-gray-300">Tiền phòng</td>
+                            <td class="text-center text-gray-600 border-r border-gray-300">1</td>
+                            <td class="text-right border-r border-gray-300">
+                                <span id="donGiaPhong">0</span>
+                            </td>
+                            <td class="text-right">
+                                <span id="thanhTienPhong">0</span>
+                            </td>
+                        </tr>
+
+                        <!-- Điện -->
+                        <tr>
+                            <td class="text-center py-2 border-r border-gray-300">2</td>
+                            <td class="font-medium border-r border-gray-300">Điện</td>
+                            <td class="border-r border-gray-300 w-32">
+                                <div class="space-y-1">
+                                    <div class="flex flex-col gap-1">
+                                        <input type="number" id="dienCu" min="0" placeholder="Cũ" class="form-input px-2 py-1 text-sm rounded-lg border-gray-300">
+                                        <input type="number" id="dienMoi" min="0" placeholder="Mới" class="form-input px-2 py-1 text-sm rounded-lg border-gray-300">
+                                    </div> <input type="text" id="tieuThuDien" readonly placeholder="Tiêu thụ" class="form-input w-full px-2 py-1 text-xs bg-gray-100 border-gray-300 rounded-lg">
+                                </div>
+                            </td>
+                            <td class="text-right border-r border-gray-300">
+                                <span id="donGiaDien">0</span>
+                            </td>
+                            <td class="text-right">
+                                <span id="thanhTienDien">0</span>
+                            </td>
+                        </tr>
+
+                        <!-- Nước -->
+                        <tr>
+                            <td class="text-center py-2 border-r border-gray-300">3</td>
+                            <td class="font-medium border-r border-gray-300">Nước</td>
+                            <td class="border-r border-gray-300 w-32">
+                                <div class="space-y-1">
+                                    <div class="flex flex-col gap-1">
+                                        <input type="number" id="nuocCu" min="0" placeholder="Cũ" class="form-input px-2 py-1 text-sm rounded-lg border-gray-300">
+                                        <input type="number" id="nuocMoi" min="0" placeholder="Mới" class="form-input px-2 py-1 text-sm rounded-lg border-gray-300">
+                                    </div>
+                                    <input type="text" id="tieuThuNuoc" readonly placeholder="Tiêu thụ" class="form-input w-full px-2 py-1 text-xs bg-gray-100 border-gray-300 rounded-lg">
+                                </div>
+                            </td>
+                            <td class="text-right border-r border-gray-300">
+                                <span id="donGiaNuoc">0</span>
+                            </td>
+                            <td class="text-right"><span id="thanhTienNuoc">0</span></td>
+                        </tr>
+
+                        <!-- Dịch vụ -->
+                        <tr>
+                            <td class="text-center py-2 border-r border-gray-300">4</td>
+                            <td class="font-medium border-r border-gray-300">Dịch vụ khác</td>
+                            <td class="border-r border-gray-300 text-center">
+                                <input type="number" id="soNguoi" min="0" placeholder="Nhập số người" class="form-input w-full px-2 py-1 text-sm rounded-lg border-gray-300 text-center">
+                            </td>
+                            <td class="text-right border-r border-gray-300">
+                                <span id="donGiaDichVu"></span>
+                            </td>
+                            <td class="text-right"><span id="thanhTienDichVu">0</span></td>
+                        </tr>
+
+                        <!-- Danh sách dịch vụ động (load từ bảng DichVu bằng AJAX) -->
+                        <tr>
+                            <td colspan="5" class="p-0">
+                                <div id="dichVuContainer" class="mt-2 border-t border-gray-200 bg-gray-50 p-3 rounded-b-lg">
+                                    <!-- Dịch vụ động sẽ được jQuery load vào đây -->
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Tổng thanh toán tháng này -->
+                        <tr class="bg-blue-50 font-semibold">
+                            <td class="text-center py-2 border-r border-gray-300">5</td>
+                            <td class="text-center py-2 border-r border-gray-300">Số tiền phải thanh toán tháng này</td>
+                            <td colspan="2" class="border-r border-gray-300"></td>
+                            <td class="text-right text-blue-700"><span id="thanhTienThangNay">0</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Bằng chữ</label>
+                <input id="bangChu" readonly class="form-input w-full bg-gray-100 border-gray-300 rounded-lg" placeholder="Hiển thị số tiền dạng chữ">
+            </div>
+        </form>
+
+        <!-- Action Buttons -->
+        <div class="p-6 border-t border-gray-200 flex justify-end space-x-3">
+            <button onclick="closeModal('createBillModal')" class="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">Hủy</button>
+            <button id="btnCreateBill" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Lưu hóa đơn</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        // ===== Khởi tạo khi load =====
+        loadPhong();
+        loadTatCaDichVu();
+        capNhatTongTien();
+
+        // ===== Sự kiện chọn phòng =====
+        $("#selectPhong").on("change", async function () {
+            const maHopDong = parseInt($(this).val()) || 0;
+            const sel = $(this).find(":selected");
+            $("#tenKhachThue").val(sel.data("khach") || "");
+
+            if (!maHopDong) {
+                $("#dienCu, #nuocCu").val('');
+                return;
+            }
+
+            // Cập nhật giá phòng
+            const giaPhong = parseInt(sel.data("giaphong")) || 0;
+            $("#donGiaPhong").text(numberWithCommas(giaPhong));
+            $("#thanhTienPhong").text(numberWithCommas(giaPhong));
+            capNhatTongTien();
+
+            // Lấy chỉ số điện nước gần nhất
+            try {
+                const data = await $.get("/QuanLy/HoaDon/LayChiSoHopDong", { maHopDong });
+                data.forEach(x => {
+                    if (x.maDv == 1 || x.MaDv == 1) $("#dienCu").val(x.chiSoCu ?? x.ChiSoCu ?? 0);
+                    if (x.maDv == 2 || x.MaDv == 2) $("#nuocCu").val(x.chiSoCu ?? x.ChiSoCu ?? 0);
+                });
+            } catch (err) {
+                console.error("Lỗi khi load chỉ số:", err);
+            }
+        });
+
+        // ===== Sự kiện nhập điện / nước =====
+        $("#dienCu, #dienMoi").on("input", debounce(() => tinhChiSo("dien"), 200));
+        $("#nuocCu, #nuocMoi").on("input", debounce(() => tinhChiSo("nuoc"), 200));
+
+        // ===== Sự kiện thay đổi số người =====
+        $("#soNguoi").on("input", debounce(capNhatTongDichVu, 300));
+
+        // ===== Lưu hóa đơn =====
+        $("#btnCreateBill").on("click", function (e) {
+            e.preventDefault();
+            const payload = taoPayloadHoaDon();
+            if (!payload) return;
+
+            $.ajax({
+                url: "/QuanLy/HoaDon/TaoHoaDon",
+                type: "POST",
+                data: JSON.stringify(payload),
+                contentType: "application/json",
+                success: function (res) {
+                    if (res.success) {
+                        showNotification(res.message || "Tạo hóa đơn thành công", "success");
+                        closeModal("createBillModal");
+                        $("#bills-section").load("/QuanLy/HoaDon/ReloadPartial #bills-section > *");
+                    } else {
+                        showNotification(res.message || "Không thể tạo hóa đơn, vui lòng kiểm tra lại.", "warning");
+                    }
+                },
+                error: function (xhr) {
+                    if (xhr.status === 409) {
+                        const msg = (JSON.parse(xhr.responseText).message || "Hóa đơn đã tồn tại cho kỳ này.");
+                        showNotification(msg, "warning");
+                    } else {
+                        showNotification("Lỗi khi tạo hóa đơn: " + xhr.statusText, "error");
+                    }
+                }
+            });
+        });
+    });
+
+
+    // ================== HÀM CHÍNH ==================
+
+    async function loadPhong() {
+        try {
+            const data = await $.get("/QuanLy/HoaDon/LayDanhSachPhongDangThue");
+            const sel = $("#selectPhong");
+            sel.empty().append('<option value="">-- Chọn phòng --</option>');
+
+            if (!data?.length) {
+                sel.append('<option value="">Không có phòng đang thuê</option>');
+                return;
+            }
+
+            data.forEach(p => {
+                sel.append(`
+                    <option value="${p.maHopDong}" data-khach="${escapeHtml(p.tenKhach)}" data-giaphong="${p.giaPhong}">
+                        ${escapeHtml(p.tenPhong)}${p.diaChi ? ' - ' + escapeHtml(p.diaChi) : ''}
+                    </option>
+                `);
+            });
+        } catch (xhr) {
+            console.error("Lỗi khi load phòng:", xhr.responseText);
+        }
+    }
+
+
+    async function loadTatCaDichVu() {
+        try {
+            const data = await $.get("/QuanLy/HoaDon/LayDanhSachDichVu");
+            if (!data?.length) return;
+
+            // Phân loại dịch vụ
+            const dien = data.find(dv => dv.maDv == 1);
+            const nuoc = data.find(dv => dv.maDv == 2);
+            const khac = data.filter(dv => dv.maDv != 1 && dv.maDv != 2);
+
+            if (dien) $("#donGiaDien").text(numberWithCommas(dien.donGia)).attr("data-value", dien.donGia);
+            if (nuoc) $("#donGiaNuoc").text(numberWithCommas(nuoc.donGia)).attr("data-value", nuoc.donGia);
+
+            renderDichVuKhac(khac);
+        } catch (xhr) {
+            console.error("Lỗi khi load dịch vụ:", xhr.responseText);
+        }
+    }
+
+
+    // ================== XỬ LÝ DỊCH VỤ KHÁC ==================
+    function renderDichVuKhac(dichVuKhac) {
+        const container = $("#dichVuContainer");
+        if (!dichVuKhac?.length) {
+            container.html("<p class='text-center text-gray-500'>Không có dịch vụ nào.</p>");
+            return;
+        }
+
+        let html = `
+            <table class="w-full text-sm border border-gray-300 rounded-lg">
+                <thead class="bg-gray-100 text-gray-700">
+                    <tr>
+                        <th class="text-center w-12 border-r border-gray-300">Chọn</th>
+                        <th class="text-left border-r border-gray-300">Nội dung</th>
+                        <th class="text-right border-r border-gray-300 w-28">Đơn giá</th>
+                        <th class="text-right w-32">Thành tiền</th>
+                    </tr>
+                </thead><tbody>
+        `;
+
+        dichVuKhac.forEach(dv => {
+            const donGia = parseInt(dv.donGia) || 0;
+            html += `
+                <tr class="border-t border-gray-200">
+                    <td class="text-center border-r border-gray-300">
+                        <input type="checkbox" class="dv-check" data-id="${dv.maDv}" data-ten="${dv.tenDv}" data-dongia="${donGia}" />
+                    </td>
+                    <td class="border-r border-gray-300">${dv.tenDv}</td>
+                    <td class="text-right border-r border-gray-300">${numberWithCommas(donGia)}</td>
+                    <td class="text-right">
+                        <span class="dv-thanh-tien" data-id="${dv.maDv}">0</span>
+                    </td>
+                </tr>
+            `;
+        });
+
+        html += `</tbody></table>`;
+        container.html(html);
+
+        //chặn không cho nhập số âm
+        $(document).on("input", "#createBillModal input[type='number']", function () {
+            if (parseFloat(this.value) < 0) this.value = 0;
+        });
+
+        $(document).on("keypress", "#createBillModal input[type='number']", function (e) {
+            if (e.key === "-" || e.key === "e") {
+                e.preventDefault(); // chặn nhập dấu trừ hoặc ký tự "e"
+            }
+        });
+
+        // Tick chọn dịch vụ
+        $(".dv-check").on("change", function () {
+            const id = $(this).data("id");
+            const ten = $(this).data("ten");
+            const donGia = parseInt($(this).data("dongia")) || 0;
+            const checked = $(this).is(":checked");
+            const soNguoi = parseInt($("#soNguoi").val()) || 0;
+
+            const thanhTien = tinhThanhTienDV(ten, donGia, soNguoi, checked);
+            $(`.dv-thanh-tien[data-id='${id}']`).text(numberWithCommas(thanhTien));
+
+            capNhatTongDichVu();
+        });
+
+        // Khi thay đổi số người: cập nhật lại tất cả thành tiền
+        $("#soNguoi").off("input.dv").on("input.dv", debounce(() => {
+            const soNguoi = parseInt($("#soNguoi").val()) || 0;
+            $(".dv-check").each(function () {
+                const id = $(this).data("id");
+                const ten = $(this).data("ten");
+                const donGia = parseInt($(this).data("dongia")) || 0;
+                const checked = $(this).is(":checked");
+
+                // Tính lại thành tiền cho từng dòng
+                const thanhTien = tinhThanhTienDV(ten, donGia, soNguoi, checked);
+                $(`.dv-thanh-tien[data-id='${id}']`).text(numberWithCommas(thanhTien));
+            });
+
+            capNhatTongDichVu(); // cập nhật tổng dịch vụ & tổng tiền
+        }, 300));
+    }
+
+
+    function tinhThanhTienDV(ten, donGia, soNguoi, checked) {
+        if (!checked) return 0;
+        const t = ten.toLowerCase();
+        // Nếu là dịch vụ mạng hoặc internet
+        if (t.includes("internet") || t.includes("mạng")) {
+            return soNguoi > 0 ? donGia : 0;
+        }
+        // Còn lại nhân theo số người
+        return donGia * soNguoi;
+    }
+
+    function capNhatTongDichVu() {
+        let tong = 0;
+        $(".dv-check:checked").each(function () {
+            const id = $(this).data("id");
+            const ten = $(this).data("ten");
+            const donGia = parseInt($(this).data("dongia")) || 0;
+            const soNguoi = parseInt($("#soNguoi").val()) || 0;
+            const thanhTien = tinhThanhTienDV(ten, donGia, soNguoi, true);
+            $(`.dv-thanh-tien[data-id='${id}']`).text(numberWithCommas(thanhTien)); // Cập nhật realtime
+            tong += thanhTien;
+        });
+        $("#thanhTienDichVu").text(numberWithCommas(tong));
+        capNhatTongTien();
+    }
+
+
+    // ================== XỬ LÝ TÍNH TOÁN ==================
+    function tinhChiSo(loai) {
+        const cu = parseInt($(`#${loai}Cu`).val()) || 0;
+        const moi = parseInt($(`#${loai}Moi`).val()) || 0;
+        const gia = parseInt($(`#donGia${capitalize(loai)}`).attr("data-value")) || 0;
+        const tieuThu = Math.max(0, moi - cu);
+        const thanhTien = tieuThu * gia;
+
+        $(`#tieuThu${capitalize(loai)}`).val(tieuThu);
+        $(`#thanhTien${capitalize(loai)}`).text(numberWithCommas(thanhTien));
+        capNhatTongTien();
+    }
+
+    function capNhatTongTien() {
+        const tong = ["Phong", "Dien", "Nuoc", "DichVu"]
+            .map(id => parseInt(removeCommas($(`#thanhTien${id}`).text())) || 0)
+            .reduce((a, b) => a + b, 0);
+
+        $("#thanhTienThangNay").text(numberWithCommas(tong));
+        $("#bangChu").val(numberToWords(Math.max(0, tong)));
+    }
+
+
+    // ================== TẠO PAYLOAD HÓA ĐƠN ==================
+    function taoPayloadHoaDon() {
+        const maHopDong = parseInt($("#selectPhong").val()) || 0;
+        const thang = parseInt($("#thangKyHoaDon").val()) || 0;
+        const nam = parseInt($("#namKyHoaDon").val()) || 0;
+        const thanhTienThangNay = parseInt(removeCommas($("#thanhTienThangNay").text())) || 0;
+
+        if (!maHopDong || !thang || !nam) {
+            showNotification("Vui lòng chọn phòng và nhập kỳ hóa đơn (tháng, năm).", "warning");
+            return null;
+        }
+
+        const dienCu = parseInt($("#dienCu").val()) || 0;
+        const dienMoi = parseInt($("#dienMoi").val()) || 0;
+        const nuocCu = parseInt($("#nuocCu").val()) || 0;
+        const nuocMoi = parseInt($("#nuocMoi").val()) || 0;
+
+        if (dienMoi < dienCu) {
+            showNotification("Chỉ số điện mới phải >= chỉ số cũ.", "error");
+            return null;
+        }
+        if (nuocMoi < nuocCu) {
+            showNotification("Chỉ số nước mới phải >= chỉ số cũ.", "error");
+            return null;
+        }
+
+        const chiTiet = [
+            {
+                MaDv: 1,
+                SoLuong: parseInt($("#tieuThuDien").val()) || 0,
+                DonGia: parseInt($("#donGiaDien").attr("data-value")) || 0,
+                ThanhTien: parseInt(removeCommas($("#thanhTienDien").text())) || 0
+            },
+            {
+                MaDv: 2,
+                SoLuong: parseInt($("#tieuThuNuoc").val()) || 0,
+                DonGia: parseInt($("#donGiaNuoc").attr("data-value")) || 0,
+                ThanhTien: parseInt(removeCommas($("#thanhTienNuoc").text())) || 0
+            }
+        ];
+
+        $(".dv-check:checked").each(function () {
+            const maDv = parseInt($(this).data("id")) || 0;
+            const ten = $(this).data("ten") || "";
+            const donGia = parseInt($(this).data("dongia")) || 0;
+            const soNguoi = ten.toLowerCase().includes("internet") ? 1 : parseInt($("#soNguoi").val()) || 0;
+            const thanhTien = ten.toLowerCase().includes("internet") ? donGia : donGia * soNguoi;
+
+            chiTiet.push({ MaDv: maDv, SoLuong: soNguoi, DonGia: donGia, ThanhTien: thanhTien });
+        });
+
+        return {
+            maHopDong, thang, nam,
+            thanhTienThangNay,
+            chiTiet,
+            chiSoDien: { cu: dienCu, moi: dienMoi },
+            chiSoNuoc: { cu: nuocCu, moi: nuocMoi }
+        };
+    }
+
+    // ================== HÀM TIỆN ÍCH ==================
+    function removeCommas(x) { return x ? x.toString().replace(/,/g, "") : "0"; }
+    function numberWithCommas(x) { return x == null ? "0" : x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+    function escapeHtml(t) { return !t ? "" : t.replace(/[\"&'\/<>]/g, a => ({'"':'&quot;','&':'&amp;',"'":'&#39;','/':'&#47;','<':'&lt;','>':'&gt;'}[a])); }
+    function capitalize(str) { return str.charAt(0).toUpperCase() + str.slice(1); }
+    function debounce(fn, delay) { let timer; return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn.apply(this, args), delay); }; }
+
+    // ====== Chuyển số thành chữ ======
+    function numberToWords(num) {
+        if (num === 0) return "Không đồng";
+        const dv = ["", "nghìn", "triệu", "tỷ"];
+        const so = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
+        function docBaSo(n) {
+            let t = Math.floor(n / 100), c = Math.floor((n % 100) / 10), d = n % 10, kq = "";
+            if (t > 0) { kq += so[t] + " trăm"; if (c === 0 && d !== 0) kq += " lẻ"; }
+            if (c > 1) { kq += " " + so[c] + " mươi"; if (d === 1) kq += " mốt"; else if (d === 5) kq += " lăm"; else if (d > 0) kq += " " + so[d]; }
+            else if (c === 1) { kq += " mười"; if (d === 5) kq += " lăm"; else if (d > 0) kq += " " + so[d]; }
+            else if (c === 0 && d > 0) { kq += " " + so[d]; }
+            return kq.trim();
+        }
+        let i = 0, str = "";
+        while (num > 0) {
+            const ba = num % 1000;
+            if (ba > 0) str = docBaSo(ba) + " " + dv[i] + " " + str;
+            num = Math.floor(num / 1000);
+            i++;
+        }
+        return str.trim() + " đồng";
+    }
+</script>

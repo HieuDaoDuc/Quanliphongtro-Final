@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Trang khách thuê";
+    Layout = "~/Areas/KhachThue/Views/Shared/_KhachThueLayout.cshtml";
+}
+
+<main class="lg:ml-64 pt-16 p-6">
+    <!-- Dashboard Page -->
+    @await Component.InvokeAsync("DashboardKhachThue")
+
+    <!-- Profile Page -->
+    @await Component.InvokeAsync("ThongTinCaNhan")
+
+    <!-- Contracts Page -->
+    @await Component.InvokeAsync("HopDongKhachThue")
+
+    <!-- Bills Page -->
+    @await Component.InvokeAsync("HoaDonKhachThue")
+
+    <!-- Notifications Page -->
+    @await Component.InvokeAsync("ThongBaoLienHe")
+
+    <!-- Account Page -->
+    @await Component.InvokeAsync("TaiKhoanKhachThue")
+</main>

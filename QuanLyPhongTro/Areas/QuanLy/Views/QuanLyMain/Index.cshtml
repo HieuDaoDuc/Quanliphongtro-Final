@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Trang quản lý";
+    Layout = "~/Areas/QuanLy/Views/Shared/_QuanLyLayout.cshtml";
+}
+
+<main class="p-6">
+    <!-- Dashboard Section -->
+    <!--Trang dashboard-->
+    @await Component.InvokeAsync("Dashboard")
+
+    <!-- Rooms Section -->
+    <!--Trang quản lý phòng-->
+    @await Component.InvokeAsync("Phong")
+
+    <!-- Tenants Section -->
+    <!--Trang quản lý khách thuê-->
+    @await Component.InvokeAsync("KhachThue")
+
+    <!-- Contracts Section -->
+    <!--Trang quản lý hợp đồng-->
+    @await Html.PartialAsync("~/Areas/QuanLy/Views/HopDong/Index.cshtml")
+
+    <!-- Services Section -->
+    <!--Trang quản lý dịch vụ-->
+    @await Component.InvokeAsync("DichVu")
+
+    <!-- Bills Section -->
+    <!--Trang quản lý hóa đơn-->
+    @await Component.InvokeAsync("HoaDon")
+
+    <!-- Finance Section -->
+    <!--Trang quản lý thu chi-->
+    @await Component.InvokeAsync("ThuChi")
+
+    <!-- Reports Section -->
+    <!--Trang báo cáo-thống kê-->
+    @await Component.InvokeAsync("BaoCaoThongKe")
+
+    <!--Trang quản lý thông báo-->
+    @await Component.InvokeAsync("ThongBao")
+
+    <!-- Accounts Section -->
+    <!--Trang quản lý tài khoản-->
+    @await Component.InvokeAsync("TaiKhoan")
+</main>
+
